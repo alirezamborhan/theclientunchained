@@ -1,9 +1,12 @@
+import os
+
 import signup
 #import signin
 
 def main():
     e = ""
     while True:
+        os.system("clear")
         print(e)
         e = ""
         print("What do you wish to do?\n")
