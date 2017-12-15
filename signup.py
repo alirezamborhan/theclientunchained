@@ -37,7 +37,7 @@ def register(name, username, password):
         o = open('theClientUnchained.log', mode='w')
         o.write(r.text)
         o.close()
-        e = "Unknown error has occured. The response has been logged in theClientUnchained.log."
+        e = "Unknown error occured. The response has been logged in theClientUnchained.log."
         return False
 
 def main():
@@ -63,5 +63,9 @@ def main():
         password = str(getpass(prompt="Enter your password: "))
         if not is_password_valid(password):
             e = "Your password must be longer than 8 characters."
+            continue
+        password_repeat = str(getpass(prompt="Repeat your password: "))
+        if password != password_repeat:
+            e = "You did not repeat the same password."
             continue
         done = register(name, username, password)
