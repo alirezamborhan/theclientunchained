@@ -16,12 +16,25 @@ def is_name_valid(name):
     return False
 
 def register(name, username, password):
-    pass
+    global url
+    payload = dict(name=name, username=username, password=password)
+    r = requests.post(url, data=payload)
+    ####  Debugging the requests.
+    o = open('LOG', mode='w')
+    o.write(r.text)
+    o.close()
+    print(r.text)
+    input()
+    ####
+    return True
 
 def main():
     e = ""
+    global url
+    url = "http://127.0.0.1:8000/signup/"
     while True:
         e = "Fill in your data. " + e
+        print(e)
         name = str(input("Enter your name: "))
         if not is_name_valid(name):
             e = "Enter your name."
