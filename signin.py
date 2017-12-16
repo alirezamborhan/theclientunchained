@@ -20,7 +20,11 @@ def login(username, password):
     # This function is for the registration request.
     global e
     payload = dict(username=username, password=password)
-    r = requests.post(settings.urls['signin'], data=payload)
+    try:
+        r = requests.post(settings.urls['signin'], data=payload)
+    except requests.exceptions.ConnectionError:
+        e = "Connection failed! Try again."
+        return False
     if r.ok:
         e = r.text
         return True
@@ -38,20 +42,23 @@ def main():
     global e
     e = ""
     done = False
-    while True:
-        os.system("clear")
-        if done:
-            print(e + "\nNow press enter to return to the menu.\n")
-            input()
-            return
-        e = "Enter your username and password. " + e
-        print(e + "\n")
-        username = str(input("Enter your username: "))
-        if not is_username_valid(username):
-            e = "Enter your username."
-            continue
-        password = str(getpass(prompt="Enter your password: "))
-        if not is_password_valid(password):
-            e = "Enter your password."
-            continue
-        done = login(username, password)
+    try:
+        while True:
+            os.system("clear")
+            if done:
+                print(e + "\nNow press enter to return to the menu.\n")
+                input()
+                return
+            e = e + (' ' if e else '') + "Enter your username and password. Use Ctrl+C to return to menu."
+            print(e + "\n")
+            username = str(input("Enter your username: "))
+            if not is_username_valid(username):
+                e = "Don't leave the field empty."
+                continue
+            password = str(getpass(prompt="Enter your password: "))
+            if not is_password_valid(password):
+                e = "Don't leave the field empty."
+                continue
+            done = login(username, password)
+    except KeyboardInterrupt:
+        pass
