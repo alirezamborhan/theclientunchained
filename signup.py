@@ -46,7 +46,7 @@ def register(name, username, password):
         e = "Unknown error occured. The response has been logged in theClientUnchained.log."
         return False
 
-def main():
+def main(session):
     global e
     e = ""
     done = False

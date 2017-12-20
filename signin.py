@@ -16,12 +16,12 @@ def is_password_valid(password):
         return True
     return False
 
-def login(username, password):
+def login(username, password, session):
     # This function is for the registration request.
     global e
     payload = dict(username=username, password=password)
     try:
-        r = requests.post(settings.urls['signin'], data=payload)
+        r = session.post(settings.urls['signin'], data=payload)
     except requests.exceptions.ConnectionError:
         e = "Connection failed! Try again."
         return False
@@ -38,7 +38,7 @@ def login(username, password):
         e = "Unknown error occured. The response has been logged in theClientUnchained.log."
         return False
 
-def main():
+def main(session):
     global e
     e = ""
     done = False
@@ -48,7 +48,7 @@ def main():
             if done:
                 print(e + "\nNow press enter to return to the menu.\n")
                 input()
-                return
+                return True
             e = e + (' ' if e else '') + "Enter your username and password. Use Ctrl+C to return to menu."
             print(e + "\n")
             username = str(input("Enter your username: "))
@@ -59,6 +59,6 @@ def main():
             if not is_password_valid(password):
                 e = "Don't leave the field empty."
                 continue
-            done = login(username, password)
+            done = login(username, password, session)
     except KeyboardInterrupt:
-        pass
+        return False
