@@ -7,6 +7,7 @@ from getpass import getpass
 import settings
 
 def is_username_valid(username):
+    """Check to see if username is valid."""
     if (3 <= len(username) <= 100
         and username.replace('_', '').isalnum()
         and (username[0].isalpha() or username[0] == '_')
@@ -15,17 +16,19 @@ def is_username_valid(username):
     return False
 
 def is_password_valid(password):
+    """Check to see if password is valid."""
     if len(password) >= 8:
         return True
     return False
 
 def is_name_valid(name):
+    """Check to see if name is valid."""
     if 0 <= len(name) <= 100:
         return True
     return False
 
 def register(name, username, password):
-    # This function is for the registration request.
+    """Request for registration."""
     global e
     payload = dict(name=name, username=username, password=password)
     try:
@@ -37,9 +40,11 @@ def register(name, username, password):
         e = r.text
         return True
     elif r.status_code == 400:
+        # Check for errors.
         e = r.text
         return False
     else:
+        # Log.
         o = open('theClientUnchained.log', mode='w')
         o.write(r.text)
         o.close()
@@ -47,6 +52,7 @@ def register(name, username, password):
         return False
 
 def main(session):
+    """Try to sign up in the server."""
     global e
     e = ""
     done = False

@@ -9,7 +9,9 @@ import dummy
 import signout
 
 def main():
+    """Start the main client application."""
     e = ""
+    # Create a session.
     session = requests.Session()
     loggedin = False
     try:

@@ -7,17 +7,19 @@ from getpass import getpass
 import settings
 
 def is_username_valid(username):
+    """Check to see if username is valid."""
     if username:
         return True
     return False
 
 def is_password_valid(password):
+    """Check to see if password is valid."""
     if password:
         return True
     return False
 
 def login(username, password, session):
-    # This function is for the registration request.
+    """Send registeration request."""
     global e
     payload = dict(username=username, password=password)
     try:
@@ -29,9 +31,11 @@ def login(username, password, session):
         e = r.text
         return True
     elif r.status_code == 400 or r.status_code == 403:
+        # Check for errors.
         e = r.text
         return False
     else:
+        # Log.
         o = open('theClientUnchained.log', mode='w')
         o.write(r.text)
         o.close()
@@ -39,6 +43,7 @@ def login(username, password, session):
         return False
 
 def main(session):
+    """Try to sign in with your session."""
     global e
     e = ""
     done = False

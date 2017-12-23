@@ -6,6 +6,7 @@ import requests
 import settings
 
 def connect(session):
+    """Try to connect and show dummy."""
     global e
     try:
         r = session.get(settings.urls["dummy"])
@@ -16,9 +17,11 @@ def connect(session):
         e = r.text
         return True
     elif r.status_code == 403:
+        # Not signed in.
         e = r.text
         return False
     else:
+        # Log.
         o = open('theClientUnchained.log', mode='w')
         o.write(r.text)
         o.close()
@@ -26,7 +29,7 @@ def connect(session):
         return True
 
 def main(session):
-    # returns whether we are still logged in.
+    """Show a dumb dummy page."""
     global e
     e = ""
     os.system("clear")
